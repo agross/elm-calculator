@@ -6,4 +6,8 @@ import Html
 -- define type for `main` value
 main : Html.Html msg
 main =
-  Html.text "hello, world"
+  display
+
+display : Html.Html msg
+display =
+  Html.h1 [] [ Html.text "0" ]

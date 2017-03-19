@@ -11,7 +11,9 @@ import Html.Attributes as Attr
 
 
 type alias Button =
-    String
+    { text : String
+    , message : Message
+    }
 
 
 type alias Model =
@@ -52,20 +54,27 @@ update msg model =
 
 view : Model -> Html.Html Message
 view model =
-    Html.div
-        [ Attr.style
-            [ ( "margin", "1rem" )
-            , ( "width", "10rem" )
+    let
+        n n =
+            Button (toString n) (NumberPressed n)
+
+        o l o =
+            Button l (OperatorPressed o)
+    in
+        Html.div
+            [ Attr.style
+                [ ( "margin", "1rem" )
+                , ( "width", "10rem" )
+                ]
             ]
-        ]
-        [ display model
-        , keyboard
-            [ [ "7", "8", "9", "*" ]
-            , [ "4", "5", "6", "/" ]
-            , [ "1", "2", "3", "+" ]
-            , [ "0", ",", "=", "-" ]
+            [ display model
+            , keyboard
+                [ [ n 7, n 8, n 9, o "*" Multiply ]
+                , [ n 4, n 5, n 6, o "/" Divide ]
+                , [ n 1, n 2, n 3, o "+" Plus ]
+                , [ n 0, o "," Comma, o "=" Equals, o "-" Minus ]
+                ]
             ]
-        ]
 
 
 keyboard : List (List Button) -> Html.Html Message
@@ -81,8 +90,8 @@ buttons labels =
         (List.map button labels)
 
 
-button : String -> Html.Html Message
-button label =
+button : Button -> Html.Html Message
+button button =
     Html.button
         [ Attr.style
             [ ( "width", "2rem" )
@@ -90,7 +99,7 @@ button label =
             , ( "margin", "0 .5rem .5rem 0" )
             ]
         ]
-        [ Html.text label ]
+        [ Html.text button.text ]
 
 
 display : Int -> Html.Html Message

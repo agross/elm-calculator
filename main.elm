@@ -18,8 +18,22 @@ type alias Button =
 -- define type for `main` value
 
 
-main : Html.Html msg
+main : Program Never () msg
 main =
+    Html.beginnerProgram
+        { model = ()
+        , view = view
+        , update = update
+        }
+
+
+update : msg -> model -> model
+update msg model =
+    model
+
+
+view : model -> Html.Html msg
+view model =
     Html.div
         [ Attr.style
             [ ( "margin", "1rem" )

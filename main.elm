@@ -8,6 +8,7 @@ import Html
 -- shorten module name
 
 import Html.Attributes as Attr
+import Html.Events as Ev
 
 
 type alias Button =
@@ -17,7 +18,9 @@ type alias Button =
 
 
 type alias Model =
-    Int
+    { acc : Int
+    , nextOp : Int -> Int
+    }
 
 
 type Message
@@ -41,7 +44,8 @@ type Operator
 main : Program Never Model Message
 main =
     Html.beginnerProgram
-        { model = 0
+        -- identity == (\x -> x)
+        { model = Model 0 identity
         , view = view
         , update = update
         }
@@ -49,7 +53,14 @@ main =
 
 update : Message -> Model -> Model
 update msg model =
-    model
+    case msg of
+        NumberPressed n ->
+            -- Model (model.acc * 10 + n) model.nextOp
+            -- is the same as below:
+            { model | acc = model.acc * 10 + n }
+
+        OperatorPressed op ->
+            model
 
 
 view : Model -> Html.Html Message
@@ -67,7 +78,7 @@ view model =
                 , ( "width", "10rem" )
                 ]
             ]
-            [ display model
+            [ display model.acc
             , keyboard
                 [ [ n 7, n 8, n 9, o "*" Multiply ]
                 , [ n 4, n 5, n 6, o "/" Divide ]
@@ -98,6 +109,7 @@ button button =
             , ( "height", "2rem" )
             , ( "margin", "0 .5rem .5rem 0" )
             ]
+        , Ev.onClick button.message
         ]
         [ Html.text button.text ]
 

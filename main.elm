@@ -14,25 +14,29 @@ type alias Button =
     String
 
 
+type alias Model =
+    Int
+
+
 
 -- define type for `main` value
 
 
-main : Program Never () msg
+main : Program Never Model msg
 main =
     Html.beginnerProgram
-        { model = ()
+        { model = 0
         , view = view
         , update = update
         }
 
 
-update : msg -> model -> model
+update : msg -> Model -> Model
 update msg model =
     model
 
 
-view : model -> Html.Html msg
+view : Model -> Html.Html msg
 view model =
     Html.div
         [ Attr.style
@@ -40,7 +44,7 @@ view model =
             , ( "width", "10rem" )
             ]
         ]
-        [ display 0
+        [ display model
         , keyboard
             [ [ "7", "8", "9", "*" ]
             , [ "4", "5", "6", "/" ]

@@ -18,6 +18,20 @@ type alias Model =
     Int
 
 
+type Message
+    = NumberPressed Int
+    | OperatorPressed Operator
+
+
+type Operator
+    = Plus
+    | Minus
+    | Divide
+    | Multiply
+    | Equals
+    | Comma
+
+
 
 -- define type for `main` value
 

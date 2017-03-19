@@ -59,7 +59,13 @@ update msg model =
             -- is the same as below:
             { model | acc = model.acc * 10 + n }
 
-        OperatorPressed op ->
+        OperatorPressed Equals ->
+            { model
+                | acc = model.nextOp model.acc
+                , nextOp = identity
+            }
+
+        _ ->
             model
 
 

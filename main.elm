@@ -18,8 +18,8 @@ type alias Button =
 
 
 type alias Model =
-    { acc : Int
-    , nextOp : Int -> Int
+    { acc : Float
+    , nextOp : Float -> Float
     }
 
 
@@ -57,12 +57,36 @@ update msg model =
         NumberPressed n ->
             -- Model (model.acc * 10 + n) model.nextOp
             -- is the same as below:
-            { model | acc = model.acc * 10 + n }
+            { model | acc = model.acc * 10 + (toFloat n) }
 
         OperatorPressed Equals ->
             { model
                 | acc = model.nextOp model.acc
                 , nextOp = identity
+            }
+
+        OperatorPressed Plus ->
+            { model
+                | acc = 0
+                , nextOp = \x -> model.acc + model.nextOp x
+            }
+
+        OperatorPressed Multiply ->
+            { model
+                | acc = 0
+                , nextOp = \x -> model.acc * model.nextOp x
+            }
+
+        OperatorPressed Minus ->
+            { model
+                | acc = 0
+                , nextOp = \x -> model.acc - model.nextOp x
+            }
+
+        OperatorPressed Divide ->
+            { model
+                | acc = 0
+                , nextOp = \x -> model.acc / model.nextOp x
             }
 
         _ ->
@@ -120,7 +144,7 @@ button button =
         [ Html.text button.text ]
 
 
-display : Int -> Html.Html Message
+display : Float -> Html.Html Message
 display number =
     Html.h1
         [ Attr.style

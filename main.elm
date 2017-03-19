@@ -3,5 +3,7 @@ module Calc exposing (..)
 
 import Html
 
+-- define type for `main` value
+main : Html.Html msg
 main =
   Html.text "hello, world"

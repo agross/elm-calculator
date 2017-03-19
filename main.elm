@@ -36,7 +36,7 @@ type Operator
 -- define type for `main` value
 
 
-main : Program Never Model msg
+main : Program Never Model Message
 main =
     Html.beginnerProgram
         { model = 0
@@ -45,12 +45,12 @@ main =
         }
 
 
-update : msg -> Model -> Model
+update : Message -> Model -> Model
 update msg model =
     model
 
 
-view : Model -> Html.Html msg
+view : Model -> Html.Html Message
 view model =
     Html.div
         [ Attr.style
@@ -68,20 +68,20 @@ view model =
         ]
 
 
-keyboard : List (List Button) -> Html.Html msg
+keyboard : List (List Button) -> Html.Html Message
 keyboard buttons_ =
     Html.div
         []
         (List.map buttons buttons_)
 
 
-buttons : List Button -> Html.Html msg
+buttons : List Button -> Html.Html Message
 buttons labels =
     Html.div []
         (List.map button labels)
 
 
-button : String -> Html.Html msg
+button : String -> Html.Html Message
 button label =
     Html.button
         [ Attr.style
@@ -93,7 +93,7 @@ button label =
         [ Html.text label ]
 
 
-display : Int -> Html.Html msg
+display : Int -> Html.Html Message
 display number =
     Html.h1
         [ Attr.style
